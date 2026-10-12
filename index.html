@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <title>Line Walker - UPT Semarang (Standalone)</title>
-    <meta name="description" content="Sistem Manajemen & Approval Line Walker PLN UPT Semarang - Versi Standalone Mandiri">
-    <meta name="theme-color" content="#0f172a">
+    <title>Line Walker - UPT Semarang (Standalone 9:16)</title>
+    <meta name="description" content="Sistem Manajemen & Approval Line Walker PLN UPT Semarang - Versi Standalone Mandiri 9:16">
+    
+    <!-- Theme Color Bersih Selaras Header (Putih) -->
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="light">
     
     <!-- PWA Settings Standalone Inline -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Line Walker">
     
     <!-- Inline Data URI Manifest -->
-    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Line%20Walker%20UPT%20Semarang%22%2C%22short_name%22%3A%22LineWalker%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%7D">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpath d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/%3E%3C/svg%3E">
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Line%20Walker%20UPT%20Semarang%22%2C%22short_name%22%3A%22LineWalker%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23ffffff%22%2C%22theme_color%22%3A%22%23ffffff%22%7D">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284c7'%3E%3Cpath d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/%3E%3C/svg%3E">
 
     <style>
         * {
@@ -31,27 +34,50 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #0f172a;
+            background-color: #f1f5f9;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        /* Container Rasio Smartphone 9:16 di Desktop */
         #app-wrapper {
             position: relative;
-            width: 100vw;
+            width: 100%;
+            max-width: 440px;
             height: 100vh;
             height: 100dvh;
+            background-color: #ffffff;
             overflow: hidden;
-            background-color: #0f172a;
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
+            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.18);
+            display: flex;
+            flex-direction: column;
         }
 
+        /* Iframe Merata 100% Penuh Tanpa Celah */
         #app-frame {
             width: 100%;
             height: 100%;
             border: none;
             display: block;
             background-color: #ffffff;
+            flex: 1;
+        }
+
+        /* Di Layar HP: 100% Edge-to-Edge Merata Penuh (9:16 Mobile Native) */
+        @media (max-width: 600px) {
+            html, body {
+                background-color: #ffffff;
+            }
+            #app-wrapper {
+                max-width: 100%;
+                width: 100vw;
+                height: 100vh;
+                height: 100dvh;
+                box-shadow: none;
+                border-radius: 0;
+            }
         }
 
         /* Splash Screen */
@@ -67,7 +93,7 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s ease;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s ease;
             color: #f8fafc;
             padding: 24px;
             text-align: center;
@@ -80,27 +106,27 @@
         }
 
         .brand-badge {
-            width: 76px;
-            height: 76px;
+            width: 72px;
+            height: 72px;
             background: rgba(14, 165, 233, 0.12);
             border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 20px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.3);
             animation: pulse-glow 2.5s infinite ease-in-out;
         }
 
         .brand-badge svg {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             fill: #38bdf8;
         }
 
         .app-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             letter-spacing: 0.5px;
             color: #f8fafc;
@@ -108,22 +134,22 @@
         }
 
         .app-subtitle {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             color: #94a3b8;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .loader-bar-container {
-            width: 220px;
+            width: 200px;
             height: 4px;
             background: rgba(148, 163, 184, 0.2);
             border-radius: 999px;
             overflow: hidden;
             position: relative;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .loader-bar {
@@ -143,61 +169,19 @@
             font-weight: 500;
         }
 
-        .quick-controls {
-            position: fixed;
-            bottom: 16px;
-            right: 16px;
-            z-index: 100;
-            display: flex;
-            gap: 8px;
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-        }
-
-        .quick-controls:hover, .quick-controls:active {
-            opacity: 0.95;
-        }
-
-        .btn-ctrl {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #94a3b8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        .btn-ctrl:hover {
-            background: #0284c7;
-            color: #ffffff;
-            border-color: #0284c7;
-        }
-
-        .btn-ctrl svg {
-            width: 17px;
-            height: 17px;
-            fill: currentColor;
-        }
-
         #offline-notice {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             background: #dc2626;
             color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             text-align: center;
-            padding: 8px;
+            padding: 6px;
             display: none;
-            z-index: 10002;
+            z-index: 10000;
         }
 
         @keyframes loading-bar {
@@ -214,9 +198,9 @@
 </head>
 <body>
 
-    <div id="offline-notice">⚠️ Koneksi internet terputus. Mohon periksa jaringan Anda.</div>
-
     <div id="app-wrapper">
+        <div id="offline-notice">⚠️ Koneksi terputus. Mohon periksa jaringan Anda.</div>
+
         <div id="splash-screen">
             <div class="brand-badge">
                 <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
@@ -237,12 +221,6 @@
         </iframe>
     </div>
 
-    <div class="quick-controls">
-        <button class="btn-ctrl" id="btn-refresh" title="Muat Ulang Aplikasi" onclick="reloadApp()">
-            <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-        </button>
-    </div>
-
     <script>
         const frame = document.getElementById('app-frame');
         const splash = document.getElementById('splash-screen');
@@ -256,23 +234,16 @@
         function hideSplash() {
             if (!splash.classList.contains('fade-out')) {
                 splash.classList.add('fade-out');
-                setTimeout(() => { splash.style.display = 'none'; }, 500);
+                setTimeout(() => { splash.style.display = 'none'; }, 400);
             }
         }
 
         setTimeout(function() {
             if (!splash.classList.contains('fade-out')) {
                 loadingTxt.innerText = "Menghubungkan ke server...";
-                setTimeout(hideSplash, 1500);
+                setTimeout(hideSplash, 1200);
             }
-        }, 4500);
-
-        function reloadApp() {
-            splash.style.display = 'flex';
-            splash.classList.remove('fade-out');
-            loadingTxt.innerText = "Menyegarkan halaman...";
-            frame.src = frame.src;
-        }
+        }, 4000);
 
         window.addEventListener('offline', () => { offlineNotice.style.display = 'block'; });
         window.addEventListener('online', () => { offlineNotice.style.display = 'none'; });
