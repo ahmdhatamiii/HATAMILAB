@@ -51,21 +51,48 @@
             background-color: #ffffff;
             overflow: hidden;
             box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.18);
+            display: flex;
+            flex-direction: column;
+            padding-left: constant(safe-area-inset-left);
+            padding-left: env(safe-area-inset-left, 0px);
+            padding-right: constant(safe-area-inset-right);
+            padding-right: env(safe-area-inset-right, 0px);
         }
 
-        /* Iframe Merata 100% Penuh Tanpa Celah */
+        /* Batasan Atas (Safe Area Status Bar / Notch / Jam iPhone) */
+        #safe-area-top {
+            width: 100%;
+            height: constant(safe-area-inset-top);
+            height: env(safe-area-inset-top, 0px);
+            min-height: 0;
+            background-color: #ffffff;
+            flex-shrink: 0;
+            z-index: 50;
+        }
+
+        /* Batasan Bawah (Safe Area Home Indicator Bar iPhone) */
+        #safe-area-bottom {
+            width: 100%;
+            height: constant(safe-area-inset-bottom);
+            height: env(safe-area-inset-bottom, 0px);
+            min-height: 0;
+            background-color: #ffffff;
+            flex-shrink: 0;
+            z-index: 50;
+        }
+
+        /* Iframe Konten Mengisi Area Bersih di Antara Batasan */
         #app-frame {
-            position: absolute;
-            top: 0;
-            left: 0;
+            flex: 1 1 auto;
             width: 100%;
             height: 100%;
+            min-height: 0;
             border: none;
             display: block;
             background-color: #ffffff;
         }
 
-        /* Di Layar HP: 100% Edge-to-Edge Merata Penuh (9:16 Mobile Native) */
+        /* Di Layar HP: 100% Layar Penuh Native dengan Batasan Terjaga */
         @media (max-width: 600px) {
             html, body {
                 background-color: #ffffff;
@@ -186,7 +213,7 @@
             font-size: 12px;
             font-weight: 600;
             text-align: center;
-            padding: 6px;
+            padding: max(8px, env(safe-area-inset-top, 8px)) 12px 8px 12px;
             display: none;
             z-index: 10000;
         }
@@ -206,6 +233,9 @@
 <body>
 
     <div id="app-wrapper">
+        <!-- Batasan Safe Area Atas: Mencegah Header Tertutup Jam & Notch iPhone -->
+        <div id="safe-area-top"></div>
+
         <div id="offline-notice">⚠️ Koneksi terputus. Mohon periksa jaringan Anda.</div>
 
         <div id="splash-screen">
@@ -226,6 +256,9 @@
             allow="camera; microphone; geolocation; clipboard-read; clipboard-write; fullscreen"
             sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-downloads">
         </iframe>
+
+        <!-- Batasan Safe Area Bawah: Mencegah Footer/Navigasi Tertutup Home Indicator Bar -->
+        <div id="safe-area-bottom"></div>
     </div>
 
     <script>
@@ -233,6 +266,29 @@
         const splash = document.getElementById('splash-screen');
         const loadingTxt = document.getElementById('loading-txt');
         const offlineNotice = document.getElementById('offline-notice');
+        const topSafeArea = document.getElementById('safe-area-top');
+        const bottomSafeArea = document.getElementById('safe-area-bottom');
+
+        // Proteksi Tambahan: Memastikan batasan safe area aktif di iOS PWA Standalone
+        function ensureSafeAreaBounds() {
+            const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || 
+                          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            const isStandalone = window.navigator.standalone === true || 
+                                 window.matchMedia('(display-mode: standalone)').matches;
+
+            if (isIOS && isStandalone) {
+                if (topSafeArea && topSafeArea.getBoundingClientRect().height === 0) {
+                    topSafeArea.style.height = '47px';
+                }
+                if (bottomSafeArea && bottomSafeArea.getBoundingClientRect().height === 0) {
+                    bottomSafeArea.style.height = '24px';
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', ensureSafeAreaBounds);
+        window.addEventListener('load', ensureSafeAreaBounds);
+        window.addEventListener('resize', ensureSafeAreaBounds);
 
         frame.addEventListener('load', function() {
             setTimeout(hideSplash, 300);
