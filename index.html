@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <title>Line Walker - UPT Semarang (Full Screen Standalone)</title>
-    <meta name="description" content="Sistem Manajemen & Approval Line Walker PLN UPT Semarang - Versi Full Screen Standalone">
+    <title>Line Walker - UPT Semarang (iPhone 13 19.5:9)</title>
+    <meta name="description" content="Sistem Manajemen & Approval Line Walker PLN UPT Semarang - Resolusi iPhone 13 19.5:9 Standalone">
     
     <!-- Theme Color Bersih Selaras Header (Putih) -->
     <meta name="theme-color" content="#ffffff">
@@ -36,36 +36,32 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #ffffff;
+            background-color: #0f172a;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Container 100% Layar Penuh (Full Screen Edge-to-Edge) */
+        /* Container Beresolusi iPhone 13 (Rasio 19.5:9 -> 390px x 844px) */
         #app-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100vw;
-            max-width: 100vw;
-            height: 100vh;
-            height: 100dvh;
+            position: relative;
+            width: 100%;
+            max-width: 390px;
+            height: 100%;
+            max-height: 844px;
+            aspect-ratio: 9 / 19.5;
             background-color: #ffffff;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            margin: 0;
+            margin: 0 auto;
             padding: 0;
-            padding-left: constant(safe-area-inset-left);
-            padding-left: env(safe-area-inset-left, 0px);
-            padding-right: constant(safe-area-inset-right);
-            padding-right: env(safe-area-inset-right, 0px);
-            box-shadow: none;
-            border-radius: 0;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            border-radius: 46px; /* Lengkungan sudut presisi khas iPhone 13 */
         }
 
-        /* Batasan Atas (Safe Area Status Bar / Notch / Jam iPhone) */
+        /* Batasan Atas (Safe Area Status Bar / Notch / Jam iPhone 13) */
         #safe-area-top {
             width: 100%;
             height: constant(safe-area-inset-top);
@@ -76,18 +72,7 @@
             z-index: 50;
         }
 
-        /* Batasan Bawah (Safe Area Home Indicator Bar iPhone) */
-        #safe-area-bottom {
-            width: 100%;
-            height: constant(safe-area-inset-bottom);
-            height: env(safe-area-inset-bottom, 0px);
-            min-height: 0;
-            background-color: #ffffff;
-            flex-shrink: 0;
-            z-index: 50;
-        }
-
-        /* Iframe Konten Mengisi 100% Ruang Layar Penuh */
+        /* Iframe Konten Mengisi 100% Penuh Tanpa Halangan Putih di Bawah */
         #app-frame {
             flex: 1 1 auto;
             width: 100%;
@@ -96,6 +81,28 @@
             border: none;
             display: block;
             background-color: #ffffff;
+        }
+
+        /* Di Layar HP (Mobile / iPhone 13 Langsung): 100% Layar Penuh Native */
+        @media (max-width: 600px) {
+            html, body {
+                background-color: #ffffff;
+            }
+            #app-wrapper {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: 100vw;
+                max-width: 100vw;
+                height: 100vh;
+                height: 100dvh;
+                max-height: none;
+                aspect-ratio: unset;
+                border-radius: 0;
+                box-shadow: none;
+            }
         }
 
         /* Tombol Toggle Full Screen Native */
@@ -279,9 +286,6 @@
             sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-downloads">
         </iframe>
 
-        <!-- Batasan Safe Area Bawah: Mencegah Footer/Navigasi Tertutup Home Indicator Bar -->
-        <div id="safe-area-bottom"></div>
-
         <!-- Tombol Layar Penuh Native (Toggle Fullscreen) -->
         <button id="btn-fullscreen" title="Layar Penuh (Full Screen)" aria-label="Toggle Fullscreen">
             <svg id="fs-icon-enter" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
@@ -295,7 +299,6 @@
         const loadingTxt = document.getElementById('loading-txt');
         const offlineNotice = document.getElementById('offline-notice');
         const topSafeArea = document.getElementById('safe-area-top');
-        const bottomSafeArea = document.getElementById('safe-area-bottom');
         const btnFs = document.getElementById('btn-fullscreen');
         const iconEnter = document.getElementById('fs-icon-enter');
         const iconExit = document.getElementById('fs-icon-exit');
@@ -330,7 +333,7 @@
             document.addEventListener('webkitfullscreenchange', updateFsIcon);
         }
 
-        // Proteksi Tambahan: Memastikan batasan safe area aktif di iOS PWA Standalone
+        // Proteksi Tambahan: Memastikan batasan status bar atas aktif di iPhone 13
         function ensureSafeAreaBounds() {
             const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || 
                           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -340,9 +343,6 @@
             if (isIOS && isStandalone) {
                 if (topSafeArea && topSafeArea.getBoundingClientRect().height === 0) {
                     topSafeArea.style.height = '47px';
-                }
-                if (bottomSafeArea && bottomSafeArea.getBoundingClientRect().height === 0) {
-                    bottomSafeArea.style.height = '24px';
                 }
             }
         }
