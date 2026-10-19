@@ -1,376 +1,59 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-    <title>Line Walker - UPT Semarang (iPhone 13 19.5:9)</title>
-    <meta name="description" content="Sistem Manajemen & Approval Line Walker PLN UPT Semarang - Resolusi iPhone 13 19.5:9 Standalone">
-    
-    <!-- Theme Color Bersih Selaras Header (Putih) -->
-    <meta name="theme-color" content="#ffffff">
-    <meta name="color-scheme" content="light">
-    
-    <!-- PWA Settings Standalone Inline -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Line Walker">
-    
-    <!-- Inline Data URI Manifest -->
-    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Line%20Walker%20UPT%20Semarang%22%2C%22short_name%22%3A%22LineWalker%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23ffffff%22%2C%22theme_color%22%3A%22%23ffffff%22%7D">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284c7'%3E%3Cpath d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/%3E%3C/svg%3E">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Line Walker UPT Semarang</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='108' fill='%23fedb00'/%3E%3Cg fill='%2300a2e8'%3E%3Cpath d='M 100 175 C 135 155, 170 155, 205 175 C 240 195, 275 195, 310 175 C 345 155, 380 155, 412 175 L 412 215 C 380 195, 345 195, 310 215 C 275 235, 240 235, 205 215 C 170 195, 135 195, 100 215 Z'/%3E%3Cpath d='M 100 255 C 135 235, 170 235, 205 255 C 240 275, 275 275, 310 255 C 345 235, 380 235, 412 255 L 412 295 C 380 275, 345 275, 310 295 C 275 315, 240 315, 205 295 C 170 275, 135 275, 100 295 Z'/%3E%3Cpath d='M 100 335 C 135 315, 170 315, 205 335 C 240 355, 275 355, 310 335 C 345 315, 380 315, 412 335 L 412 375 C 380 355, 345 355, 310 375 C 275 395, 240 395, 205 375 C 170 355, 135 355, 100 375 Z'/%3E%3C/g%3E%3Cpath d='M 230 68 L 296 68 L 220 242 L 356 190 L 250 452 L 288 268 L 152 322 Z' fill='%23e30613'/%3E%3C/svg%3E">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         html, body {
-            width: 100%;
-            height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden;
-            background-color: #0f172a;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Container Beresolusi iPhone 13 (Rasio 19.5:9 -> 390px x 844px) */
-        #app-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 390px;
-            height: 100%;
-            max-height: 844px;
-            aspect-ratio: 9 / 19.5;
-            background-color: #ffffff;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            margin: 0 auto;
-            padding: 0;
-            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.1);
-            border-radius: 46px; /* Lengkungan sudut presisi khas iPhone 13 */
-        }
-
-        /* Batasan Atas (Safe Area Status Bar / Notch / Jam iPhone 13) */
-        #safe-area-top {
-            width: 100%;
-            height: constant(safe-area-inset-top);
-            height: env(safe-area-inset-top, 0px);
-            min-height: 0;
-            background-color: #ffffff;
-            flex-shrink: 0;
-            z-index: 50;
-        }
-
-        /* Iframe Konten Mengisi 100% Penuh Tanpa Halangan Putih di Bawah */
-        #app-frame {
-            flex: 1 1 auto;
             width: 100%;
             height: 100%;
-            min-height: 0;
+            overflow: hidden;
+            background: #0f172a;
+        }
+
+        :root {
+            --gas-banner-height: 0px;
+        }
+
+        .app-frame-container {
+            position: fixed;
+            top: calc(-1 * var(--gas-banner-height));
+            left: 0;
+            width: 100%;
+            height: calc(100% + var(--gas-banner-height));
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
             border: none;
             display: block;
-            background-color: #ffffff;
-        }
-
-        /* Di Layar HP (Mobile / iPhone 13 Langsung): 100% Layar Penuh Native */
-        @media (max-width: 600px) {
-            html, body {
-                background-color: #ffffff;
-            }
-            #app-wrapper {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                width: 100vw;
-                max-width: 100vw;
-                height: 100vh;
-                height: 100dvh;
-                max-height: none;
-                aspect-ratio: unset;
-                border-radius: 0;
-                box-shadow: none;
-            }
-        }
-
-        /* Tombol Toggle Full Screen Native */
-        #btn-fullscreen {
-            position: fixed;
-            bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-            right: 16px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(15, 23, 42, 0.72);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 990;
-            opacity: 0.35;
-            transition: opacity 0.25s ease, transform 0.2s ease, background 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-        }
-
-        #btn-fullscreen:hover, #btn-fullscreen:active {
-            opacity: 1;
-            transform: scale(1.08);
-            background: rgba(2, 132, 199, 0.95);
-        }
-
-        #btn-fullscreen svg {
-            width: 18px;
-            height: 18px;
-            fill: #ffffff;
-        }
-
-        /* Splash Screen */
-        #splash-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s ease;
-            color: #f8fafc;
-            padding: 24px;
-            text-align: center;
-        }
-
-        #splash-screen.fade-out {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .brand-badge {
-            width: 72px;
-            height: 72px;
-            background: rgba(14, 165, 233, 0.12);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 18px;
-            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.3);
-            animation: pulse-glow 2.5s infinite ease-in-out;
-        }
-
-        .brand-badge svg {
-            width: 38px;
-            height: 38px;
-            fill: #38bdf8;
-        }
-
-        .app-title {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: #f8fafc;
-            margin-bottom: 4px;
-        }
-
-        .app-subtitle {
-            font-size: 12px;
-            font-weight: 500;
-            color: #94a3b8;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-        }
-
-        .loader-bar-container {
-            width: 200px;
-            height: 4px;
-            background: rgba(148, 163, 184, 0.2);
-            border-radius: 999px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 14px;
-        }
-
-        .loader-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 45%;
-            background: linear-gradient(90deg, #0284c7, #38bdf8);
-            border-radius: 999px;
-            animation: loading-bar 1.5s infinite ease-in-out;
-        }
-
-        .loading-status {
-            font-size: 12px;
-            color: #64748b;
-            font-weight: 500;
-        }
-
-        #offline-notice {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: #dc2626;
-            color: #ffffff;
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
-            padding: max(8px, env(safe-area-inset-top, 8px)) 12px 8px 12px;
-            display: none;
-            z-index: 10000;
-        }
-
-        @keyframes loading-bar {
-            0% { left: -45%; width: 45%; }
-            50% { left: 30%; width: 60%; }
-            100% { left: 100%; width: 45%; }
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { transform: scale(1); box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.3); }
-            50% { transform: scale(1.04); box-shadow: 0 14px 30px -4px rgba(14, 165, 233, 0.5); }
         }
     </style>
 </head>
+
 <body>
-
-    <div id="app-wrapper">
-        <!-- Batasan Safe Area Atas: Mencegah Header Tertutup Jam & Notch iPhone -->
-        <div id="safe-area-top"></div>
-
-        <div id="offline-notice">⚠️ Koneksi terputus. Mohon periksa jaringan Anda.</div>
-
-        <div id="splash-screen">
-            <div class="brand-badge">
-                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            </div>
-            <h1 class="app-title">LINE WALKER</h1>
-            <p class="app-subtitle">UPT SEMARANG MANAGEMENT SYSTEM</p>
-            <div class="loader-bar-container">
-                <div class="loader-bar"></div>
-            </div>
-            <p class="loading-status" id="loading-txt">Memuat sistem aplikasi...</p>
-        </div>
-
-        <iframe 
-            id="app-frame"
+    <div class="app-frame-container">
+        <iframe id="gas-app"
             src="https://script.google.com/macros/s/AKfycbyI_ablMpaA2h_3u_TturAjc7mdPk5AQ0Lr0nXEzSW0dENpAAw5S8nUhM-vTYOWXOpD/exec"
-            allow="camera; microphone; geolocation; clipboard-read; clipboard-write; fullscreen"
-            allowfullscreen="true"
-            webkitallowfullscreen="true"
-            mozallowfullscreen="true"
-            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-downloads">
-        </iframe>
-
-        <!-- Tombol Layar Penuh Native (Toggle Fullscreen) -->
-        <button id="btn-fullscreen" title="Layar Penuh (Full Screen)" aria-label="Toggle Fullscreen">
-            <svg id="fs-icon-enter" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
-            <svg id="fs-icon-exit" viewBox="0 0 24 24" style="display:none;"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
-        </button>
+            allow="geolocation; camera; microphone"></iframe>
     </div>
 
     <script>
-        const frame = document.getElementById('app-frame');
-        const splash = document.getElementById('splash-screen');
-        const loadingTxt = document.getElementById('loading-txt');
-        const offlineNotice = document.getElementById('offline-notice');
-        const topSafeArea = document.getElementById('safe-area-top');
-        const btnFs = document.getElementById('btn-fullscreen');
-        const iconEnter = document.getElementById('fs-icon-enter');
-        const iconExit = document.getElementById('fs-icon-exit');
-
-        // Fullscreen Native Toggle
-        if (btnFs) {
-            btnFs.addEventListener('click', () => {
-                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                    if (document.documentElement.requestFullscreen) {
-                        document.documentElement.requestFullscreen();
-                    } else if (document.documentElement.webkitRequestFullscreen) {
-                        document.documentElement.webkitRequestFullscreen();
-                    }
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    }
-                }
-            });
-
-            function updateFsIcon() {
-                const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
-                if (iconEnter && iconExit) {
-                    iconEnter.style.display = isFs ? 'none' : 'block';
-                    iconExit.style.display = isFs ? 'block' : 'none';
-                }
-            }
-
-            document.addEventListener('fullscreenchange', updateFsIcon);
-            document.addEventListener('webkitfullscreenchange', updateFsIcon);
-        }
-
-        // Proteksi Tambahan: Memastikan batasan status bar atas aktif di iPhone 13
-        function ensureSafeAreaBounds() {
-            const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || 
-                          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-            const isStandalone = window.navigator.standalone === true || 
-                                 window.matchMedia('(display-mode: standalone)').matches;
-
-            if (isIOS && isStandalone) {
-                if (topSafeArea && topSafeArea.getBoundingClientRect().height === 0) {
-                    topSafeArea.style.height = '47px';
-                }
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', ensureSafeAreaBounds);
-        window.addEventListener('load', ensureSafeAreaBounds);
-        window.addEventListener('resize', ensureSafeAreaBounds);
-
-        frame.addEventListener('load', function() {
-            setTimeout(hideSplash, 300);
-        });
-
-        function hideSplash() {
-            if (!splash.classList.contains('fade-out')) {
-                splash.classList.add('fade-out');
-                setTimeout(() => { splash.style.display = 'none'; }, 400);
-            }
-        }
-
-        setTimeout(function() {
-            if (!splash.classList.contains('fade-out')) {
-                loadingTxt.innerText = "Menghubungkan ke server...";
-                setTimeout(hideSplash, 1200);
-            }
-        }, 4000);
-
-        window.addEventListener('offline', () => { offlineNotice.style.display = 'block'; });
-        window.addEventListener('online', () => { offlineNotice.style.display = 'none'; });
+    // Google otomatis sembunyikan banner saat di dalam iframe (window.self !== window.top).
+    // Offset 0px agar header aplikasi tidak terpotong.
+    function calibrate(px) {
+        document.documentElement.style.setProperty('--gas-banner-height', px + 'px');
+        console.log('Banner offset: ' + px + 'px');
+    }
     </script>
 </body>
+
 </html>
